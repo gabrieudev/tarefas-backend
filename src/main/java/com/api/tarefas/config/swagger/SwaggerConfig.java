@@ -19,6 +19,6 @@ public class SwaggerConfig {
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("GitHub Repository")
-                        .url("https://github.com/gabrieudev/tarefas/"));
+                        .url("https://github.com/gabrieudev/tarefas-backend/"));
     }
 }
