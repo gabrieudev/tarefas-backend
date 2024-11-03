@@ -49,22 +49,11 @@ public class TarefaService {
         TarefaDTO tarefaDoBanco = buscarPorId(tarefaDTO.getId());
 
         if (tarefaDTO.getOrdem() != tarefaDoBanco.getOrdem()) {
-            int novaOrdem = tarefaDTO.getOrdem();
+            Tarefa tarefaSubstituida = tarefaRepository.findByOrdem(tarefaDTO.getOrdem()).orElseThrow();
 
-            List<Tarefa> tarefas = tarefaRepository.findAllByOrderByOrdemAsc();
-
-            tarefas.remove(tarefaDoBanco.toModel());
-
-            if (novaOrdem < 1) novaOrdem = 1;
-            if (novaOrdem > tarefas.size() + 1) novaOrdem = tarefas.size() + 1;
-
-            tarefas.add(novaOrdem - 1, tarefaDoBanco.toModel());
-
-            for (int i = 0; i < tarefas.size(); i++) {
-                tarefas.get(i).setOrdem(i + 1);
-            }
-
-            tarefaRepository.saveAll(tarefas);
+            tarefaSubstituida.setOrdem(tarefaDoBanco.getOrdem());
+            
+            tarefaRepository.save(tarefaSubstituida);
         }
         
         return tarefaRepository.save(tarefaDTO.toModel()).toDto();
